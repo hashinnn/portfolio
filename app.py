@@ -1,5 +1,12 @@
-from flask import request, jsonify
+from flask import Flask, render_template, request, jsonify
 import mysql.connector
+import os
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -13,10 +20,10 @@ def contact():
 
     try:
         conn = mysql.connector.connect(
-            host='your_host',
-            user='your_user',
-            password='your_password',
-            database='portfolio'
+            host=os.environ.get('DB_HOST', 'localhost'),
+            user=os.environ.get('DB_USER', 'root'),
+            password=os.environ.get('DB_PASSWORD', 'your_local_password'),
+            database=os.environ.get('DB_NAME', 'portfolio')
         )
         cursor = conn.cursor()
         cursor.execute(
@@ -29,3 +36,6 @@ def contact():
         return jsonify({'success': True})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
