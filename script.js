@@ -1,9 +1,11 @@
 // ===== TYPING EFFECT =====
 const phrases = [
     'full-stack web apps.',
-    'data dashboards.',
-    'accessible interfaces.',
-    'community platforms.'
+    'secure authentication  systems.',
+    'database-driven backends.',
+    'API-integrated platforms.',
+    'real-world solutions.',
+    'clean, purposeful code.'
 ];
 let phraseIndex = 0;
 let charIndex = 0;
@@ -279,4 +281,51 @@ if (window.innerWidth > 768) {
             card.style.transform = '';
         });
     });
+}
+
+// ===== CONTACT FORM =====
+async function submitContact() {
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const message = document.getElementById('cf-message').value.trim();
+    const btn = document.getElementById('cfSubmit');
+    const btnText = document.getElementById('cfBtnText');
+    const status = document.getElementById('cfStatus');
+
+    if (!name || !email || !message) {
+        status.textContent = 'Please fill in all fields.';
+        status.className = 'cf-status error';
+        return;
+    }
+
+    btnText.textContent = 'Sending...';
+    btn.disabled = true;
+    status.textContent = '';
+    status.className = 'cf-status';
+
+    try {
+        const res = await fetch('/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            status.textContent = '✓ Message sent! I\'ll get back to you soon.';
+            status.className = 'cf-status success';
+            document.getElementById('cf-name').value = '';
+            document.getElementById('cf-email').value = '';
+            document.getElementById('cf-message').value = '';
+        } else {
+            status.textContent = 'Something went wrong. Try emailing me directly.';
+            status.className = 'cf-status error';
+        }
+    } catch {
+        status.textContent = 'Network error. Try emailing me directly.';
+        status.className = 'cf-status error';
+    } finally {
+        btnText.textContent = 'Send Message';
+        btn.disabled = false;
+    }
 }
