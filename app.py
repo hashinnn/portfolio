@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 import mysql.connector
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -22,7 +25,7 @@ def contact():
         conn = mysql.connector.connect(
             host=os.environ.get('DB_HOST', 'localhost'),
             user=os.environ.get('DB_USER', 'root'),
-            password=os.environ.get('DB_PASSWORD', 'your_local_password'),
+            password=os.environ.get('DB_PASSWORD', ''),
             database=os.environ.get('DB_NAME', 'portfolio')
         )
         cursor = conn.cursor()

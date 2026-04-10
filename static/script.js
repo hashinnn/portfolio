@@ -1,7 +1,7 @@
 // ===== TYPING EFFECT =====
 const phrases = [
     'full-stack web apps.',
-    'secure authentication  systems.',
+    'secure authentication systems.',
     'database-driven backends.',
     'API-integrated platforms.',
     'real-world solutions.',
@@ -136,7 +136,6 @@ const dots = document.querySelectorAll('.dot');
 function updateActiveSection() {
     let current = '';
 
-    // If scrolled to the very bottom, force Contact as active
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
         current = 'contact';
     } else {
@@ -243,13 +242,15 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ===== IMAGE/PDF MODAL =====
+// Prepends /static/ so Flask serves the file correctly
 function openImageModal(src) {
     const wrapper = document.getElementById('modalImageWrapper');
+    const fullSrc = '/static/' + src;
     const ext = src.split('.').pop().toLowerCase();
     if (ext === 'pdf') {
-        wrapper.innerHTML = '<iframe src="' + src + '" title="Certificate"></iframe>';
+        wrapper.innerHTML = '<iframe src="' + fullSrc + '" title="Certificate"></iframe>';
     } else {
-        wrapper.innerHTML = '<img src="' + src + '" alt="Certificate">';
+        wrapper.innerHTML = '<img src="' + fullSrc + '" alt="Certificate">';
     }
     openModal('modal-image');
 }
@@ -328,4 +329,13 @@ async function submitContact() {
         btnText.textContent = 'Send Message';
         btn.disabled = false;
     }
+}
+
+// ===== REFERENCE LETTER PDFs =====
+function openPDF(name) {
+    const paths = {
+        'hatch':  '/static/images/Hatch.pdf',
+        'crater': '/static/images/Crater.pdf'
+    };
+    window.open(paths[name], '_blank', 'noopener');
 }
