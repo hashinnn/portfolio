@@ -18,8 +18,11 @@ def contact():
     email = data.get('email', '').strip()
     message = data.get('message', '').strip()
 
+
     if not name or not email or not message:
         return jsonify({'success': False, 'error': 'All fields required'}), 400
+    if '@' not in email:
+        return jsonify({'success': False, 'error': 'Please enter a valid email address.'}), 400
 
     try:
         conn = mysql.connector.connect(

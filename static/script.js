@@ -319,7 +319,7 @@ async function submitContact() {
             document.getElementById('cf-email').value = '';
             document.getElementById('cf-message').value = '';
         } else {
-            status.textContent = 'Something went wrong. Try emailing me directly.';
+            status.textContent = data.error || 'Something went wrong. Try emailing me directly.';
             status.className = 'cf-status error';
         }
     } catch {
