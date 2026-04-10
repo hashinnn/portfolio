@@ -331,11 +331,11 @@ async function submitContact() {
     }
 }
 
-// ===== REFERENCE LETTER PDFs =====
 function openPDF(name) {
     const paths = {
         'hatch':  '/static/images/Hatch.pdf',
-        'crater': '/static/images/Crater.pdf'
+        'crater': '/static/images/Crater.pdf',
+        'cv':     '/static/images/cv.pdf'
     };
     window.open(paths[name], '_blank', 'noopener');
 }
