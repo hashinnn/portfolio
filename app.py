@@ -18,7 +18,6 @@ def contact():
     email = data.get('email', '').strip()
     message = data.get('message', '').strip()
 
-
     if not name or not email or not message:
         return jsonify({'success': False, 'error': 'All fields required'}), 400
     if '@' not in email:
@@ -27,9 +26,11 @@ def contact():
     try:
         conn = mysql.connector.connect(
             host=os.environ.get('DB_HOST', 'localhost'),
+            port=int(os.environ.get('DB_PORT', 3306)),
             user=os.environ.get('DB_USER', 'root'),
             password=os.environ.get('DB_PASSWORD', ''),
-            database=os.environ.get('DB_NAME', 'portfolio')
+            database=os.environ.get('DB_NAME', 'portfolio'),
+            ssl_disabled=False
         )
         cursor = conn.cursor()
         cursor.execute(
